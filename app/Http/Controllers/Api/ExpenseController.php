@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Expense;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ExpenseResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ExpenseController extends Controller
 {
@@ -14,7 +17,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        return new ExpenseResource(Expense::all());
+
     }
 
     /**
@@ -25,7 +29,18 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'expense_category_id' => 'required|numeric |exists:expense_categories,id',
+            'amount' => 'required|numeric',
+        ]);
+        $input = $request->all();
+        if ($request->has('date_time')) ;
+        {
+            $input['date_time'] = carbon::parse($request->due_date)->toDateTimeString();
+        }
+
+        $Expense= Expense::create($input);
+        return new ExpenseResource($Expense);
     }
 
     /**
@@ -34,9 +49,10 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Expense $expense)
     {
-        //
+        return new ExpenseResource($expense);
+
     }
 
     /**
@@ -46,9 +62,20 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Expense $expense)
     {
-        //
+        $request->validate([
+            'expense_category_id' => 'required|numeric |exists:expense_categories,id',
+            'amount' => 'required|numeric',
+        ]);
+        $input = $request->all();
+        if ($request->has('date_time')) ;
+        {
+            $input['date_time'] = carbon::parse($request->due_date)->toDateTimeString();
+        }
+
+        $expense->update($input);
+        return new ExpenseResource($expense);
     }
 
     /**
@@ -57,8 +84,9 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Expense $expense)
     {
-        //
+        $expense->delete();
+        return response(['message' => 'Deleted Successfully ']);
     }
 }

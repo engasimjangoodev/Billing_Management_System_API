@@ -36,4 +36,5 @@ Route::middleware("auth:api")->group(function () {
         'parameters' => [
             'ExpenseCategory' => 'expensecategory'
         ]]);
+    Route::apiResource('expense', 'Api\ExpenseController');
 });
