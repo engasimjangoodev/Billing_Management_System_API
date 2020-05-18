@@ -1,5 +1,8 @@
 <?php
 
+use App\ExpenseCategory;
+use App\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,19 +20,20 @@ Route::fallback(function(){
     return response()->json(['error' => 'Resource rout not found.'], 404);
 })->name('fallback');
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+
 Route::post('/register', 'Api\AuthController@register');
 Route::post('/login', 'Api\AuthController@login');
 Route::post('/password/email', 'Api\ForgotPasswordController@sendResetLinkEmail');
 Route::post('/password/reset', 'Api\ResetPasswordController@reset');
 
-Route::apiResource('transaction', 'Api\TransactionController')->middleware("auth:api");
-Route::apiResource('user', 'Api\UserController')->middleware("auth:api");
 
+Route::middleware("auth:api")->group(function () {
 
-//Route::apiResources([
-//    'transaction' => 'Api\TransactionController',
-////    'posts' => 'PostController'
-//]);
+    Route::apiResource('transaction', 'Api\TransactionController');
+    Route::apiResource('user', 'Api\UserController');
+    Route::apiResource('bill', 'Api\BillsController');
+    Route::apiResource('expensecategory', 'Api\ExpenseCategoryController', [
+        'parameters' => [
+            'ExpenseCategory' => 'expensecategory'
+        ]]);
+});

@@ -11,4 +11,5 @@ protected $fillable = ['title' , 'description' ,'amount','due_date','payed_at'];
     {
         return $this->belongsTo(User::class , 'user_id' , 'id' );
     }
+
 }

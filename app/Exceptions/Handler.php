@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof MethodNotAllowedHttpException && $request->wantsJson()) {
             return response()->json([
-                'error' => 'Method not allowed.'
+                'error' => 'Method not allowed to Access.'
             ], 405);
         }
 

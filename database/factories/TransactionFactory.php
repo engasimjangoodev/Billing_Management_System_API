@@ -11,7 +11,7 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'title'=>$faker->title,
         'description' =>$faker->company,
         'amount' =>$faker->numberBetween(0,5000),
-        'user_id'=>$faker->numberBetween(1,10),
+        'user_id'=>$faker->numberBetween(1,20),
         'due_date' =>$faker->dateTime,
     ];
 });

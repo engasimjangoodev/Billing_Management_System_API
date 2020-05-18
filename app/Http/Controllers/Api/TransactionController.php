@@ -38,11 +38,12 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'amount' => 'required|numeric',
             'user_id'=>'required|int',
         ]);
+        $input=$request->all();
         if (!User::find($request->user_id)){
            return response(["error"=>"This user_id :".$request->user_id." Is not a valid Foreign key for Users table " ]);
         }
@@ -77,13 +78,13 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-
-        $input = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'amount' => 'required|int',
             'user_id'=>'required|int',
 
         ]);
+        $input=$request->all();
         if (!User::find($request->user_id)){
             return response(["error"=>"This user_id :".$request->user_id." Is not a valid Foreign key for Users table " ]);
         }

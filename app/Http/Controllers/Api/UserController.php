@@ -35,15 +35,16 @@ class UserController extends Controller
         // genrate access token for login
 //return UserDetails::all()->load('user');
 
-        $input = $request->validate([
+        $request->validate([
             'name' => 'required|max:55',
+            'address' => 'required',
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed',
             'User_type' => 'int',
             'phone' => ['required', new MobileNumber],//   0345-1234567   or 03451234567
             'cnic' => ['required', new CNIC],    //35202-7788145-8 and 352027788145-8 and 35202-77881458
         ]);
-
+        $input=$request->all();
         $input['password'] = bcrypt($request->password);
         if (!$request->has('User_type')) {
             $input['User_type'] = 1;
@@ -77,14 +78,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $input = $request->validate([
+        $request->validate([
             'name' => 'required|max:55',
+            'address' => 'required',
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed',
             'User_type' => 'required|numeric '
 
         ]);
-
+        $input=$request->all();
         $input['password'] = bcrypt($request->password);
 
         $user->update($input);
