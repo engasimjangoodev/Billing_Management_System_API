@@ -9,11 +9,11 @@ $factory->define(Bills::class, function (Faker $faker) {
     return [
 
         'description'=>$faker->paragraph,
-        'number'=>$faker->numberBetween(1,50),
+        'ref_number'=>$faker->numberBetween(1,50),
         'amount' =>$faker->numberBetween(1,4000),
         'balance'=>0,
         'month'=>$faker->dateTimeThisMonth(),
-        'bill_type'=>$faker->numberBetween(1,3),
+        'status'=>$faker->numberBetween(1,3),
         'received_by'=>'admin',
         'user_id'=>$faker->numberBetween(1,20),
 

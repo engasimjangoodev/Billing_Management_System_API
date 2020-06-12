@@ -17,12 +17,12 @@ class CreateBillsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('description')->nullable();
-            $table->string('number')->nullable();
+            $table->string('ref_number')->nullable();
             $table->decimal('amount',8,2);
             $table->decimal('balance',9,2)->nullable();
             $table->dateTime('due_date', 0)->nullable();
             $table->date('month')->nullable();
-            $table->string('bill_type')->nullable();
+            $table->string('status')->nullable();
             $table->string('received_by')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');

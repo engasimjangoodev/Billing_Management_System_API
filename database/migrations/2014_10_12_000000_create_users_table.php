@@ -9,8 +9,11 @@ class CreateUsersTable extends Migration
     /**
      * Run the migrations.
      *
+     *
      * @return void
      */
+//
+
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -20,7 +23,12 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('User_type')->nullable();
+            $table->decimal('amount');
             $table->rememberToken();
+            $table->unsignedBigInteger('package_id');
+
+            $table->foreign('package_id')->references("id")->on('packages');
+
             $table->timestamps();
         });
     }
